@@ -1,13 +1,12 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
+
+import ExpensesOutput from "../components/expensesOutput/ExpensesOutput";
 
 
 function AllExpenseScreen() {
     return(
-        <View >
-        <Text >
-            All Expense Screen
-        </Text>
-     </View>
+      <ExpensesOutput expensesPeriod="Total" />
+    
     )
 }
 
