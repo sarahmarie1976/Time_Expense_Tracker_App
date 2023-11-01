@@ -14,6 +14,9 @@ function ManageExpenseScreen({route, navigation}) {
   const editedExpensedId = route.params?.expenseId
   const isEditing = !!editedExpensedId
 
+  const selectedExpense = expensesCtx.expenses.find(expense => 
+    expense.id === editedExpensedId)
+
   useLayoutEffect(() => {
     navigation.setOptions({
         title: isEditing ? 'Edit Expense' : 'Add Expense'
@@ -29,22 +32,12 @@ function ManageExpenseScreen({route, navigation}) {
     navigation.goBack()
   }
 
-  function confirmHandler() {
+  function confirmHandler(expenseData) {
     if (isEditing) {
       expensesCtx.updateExpense(
-        editedExpensedId,
-        {
-          description: 'Test!!!!',
-          amount: 9.99,
-          date: new Date('2023-10-31'),
-        }
-      );
+        editedExpensedId, expenseData);
     } else {
-      expensesCtx.addExpense({
-        description: 'Test',
-        amount: 19.99,
-        date: new Date('2023-10-30'),
-      });
+      expensesCtx.addExpense(expenseData);
     }
     navigation.goBack();
   }
@@ -53,15 +46,18 @@ function ManageExpenseScreen({route, navigation}) {
      <View style={styles.container} >
        <ExpenseForm
          submitButtonLabel={isEditing ? 'Update' : 'Add'}
-         onCancel={cancelHandler} />
+         onSumit={confirmHandler}
+         onCancel={cancelHandler} 
+         defaultValues={selectedExpense}
+        />
         {isEditing && (
           <View style={styles.deleteContainer} >
             <IconButton
               icon="trash"
               color={GlobalStyles.colors.error500}
               size={36}
-              onPress={deleteExpenseHandler} />
-        
+              onPress={deleteExpenseHandler} 
+            />
           </View>
         )}
      </View>
