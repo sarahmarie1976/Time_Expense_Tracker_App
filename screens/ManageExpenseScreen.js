@@ -3,10 +3,9 @@ import { StyleSheet, View } from "react-native";
 import IconButton from "../components/UI/IconButton";
 
 import { GlobalStyles } from "../constants/styles";
-
-import Button from "../components/UI/Button";
 import { ExpensesContext } from "../store/expenses-context";
 import ExpenseForm from "../components/ManageExpense/ExpenseForm";
+import { storeExpense } from "../util/http";
 
 function ManageExpenseScreen({route, navigation}) {
   const expensesCtx = useContext(ExpensesContext)
@@ -37,6 +36,7 @@ function ManageExpenseScreen({route, navigation}) {
       expensesCtx.updateExpense(
         editedExpensedId, expenseData);
     } else {
+      storeExpense(expenseData)
       expensesCtx.addExpense(expenseData);
     }
     navigation.goBack();
@@ -62,9 +62,8 @@ function ManageExpenseScreen({route, navigation}) {
         )}
      </View>
     )
-     
-}
-export default ManageExpenseScreen
+}  
+    export default ManageExpenseScreen
 
 const styles = StyleSheet.create({
     container: {
